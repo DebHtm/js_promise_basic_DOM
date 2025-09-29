@@ -3,18 +3,18 @@
 const promise1 = new Promise((resolve, reject) => {
   const logo = document.querySelector('.logo');
 
-  logo.addEventListener('click', () => {
-    resolve('Promise was resolved!');
-  });
+  if (logo) {
+    logo.addEventListener('click', () => {
+      resolve('Promise was resolved!');
+    });
+  }
 });
 
-function usePromise2() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error('Promise was rejected!'));
-    }, 3000);
-  });
-}
+const promise2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject(new Error('Promise was rejected!'));
+  }, 3000);
+});
 
 function funcSuccess(message) {
   const div = document.createElement('div');
@@ -32,11 +32,5 @@ function funcError(error) {
   document.body.appendChild(div);
 }
 
-promise1
-  .then((msg) => {
-    funcSuccess(msg);
-
-    return usePromise2();
-  })
-  .then(funcSuccess)
-  .catch(funcError);
+promise1.then(funcSuccess).catch(funcError);
+promise2.then(funcSuccess).catch(funcError);
